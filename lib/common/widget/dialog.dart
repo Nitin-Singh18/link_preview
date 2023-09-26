@@ -55,3 +55,28 @@ Widget dialog(
     ],
   );
 }
+
+Widget deleteDialog(BuildContext context, VoidCallback onDelete) {
+  return AlertDialog(
+    content: const Text('Are you sure you want to delete this URL?'),
+    actions: <Widget>[
+      TextButton(
+        onPressed: () {
+          Navigator.of(context).pop(); // Close the dialog
+        },
+        child: const Text('Cancel'),
+      ),
+      TextButton(
+        onPressed: () {
+          onDelete();
+          // ref.read(homeViewModelProvider.notifier).deleteUrl(url);
+          Navigator.of(context).pop(); // Close the dialog
+        },
+        child: const Text(
+          'Delete',
+          style: TextStyle(color: Colors.red),
+        ),
+      ),
+    ],
+  );
+}

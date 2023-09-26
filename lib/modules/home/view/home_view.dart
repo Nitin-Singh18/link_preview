@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:url_preview_app/common/widget/tile.dart';
 
 import '../../../../common/const/app_colors.dart';
-import '../../../../common/widget/bottom_sheet.dart';
+import '../../../common/widget/dialog.dart';
 import '../../../../common/widget/custom_button.dart';
 import '../view_model/home_view_model.dart';
 
@@ -49,7 +50,37 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       final url = urlList[index];
                       return Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10.0.w),
-                        child: Tile(url: url),
+                        child: Slidable(
+                          endActionPane: ActionPane(
+                              motion: const StretchMotion(),
+                              children: [
+                                SlidableAction(
+                                  onPressed: (context) async {
+                                    await showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return deleteDialog(
+                                          context,
+                                          () {
+                                            ref
+                                                .read(homeViewModelProvider
+                                                    .notifier)
+                                                .deleteUrl(url);
+                                          },
+                                        );
+                                      },
+                                    );
+                                  },
+                                  icon: Icons.delete,
+                                  foregroundColor: AppColor.mainColor,
+                                  backgroundColor: AppColor.backGroundColor,
+                                )
+                              ]),
+                          closeOnScroll: false,
+                          child: Tile(
+                            url: url,
+                          ),
+                        ),
                       );
                     },
                   ),

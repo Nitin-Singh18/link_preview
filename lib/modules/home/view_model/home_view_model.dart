@@ -27,10 +27,9 @@ class HomeViewModel extends StateNotifier<List<Url>> {
   }
 
   void deleteUrl(Url url) async {
+    await db.deleteUrl(url.id!);
     final urlList = state;
     urlList.remove(url);
-    state = urlList;
-
-    await db.deleteUrl(url.id!);
+    state = state.where((urlRecord) => urlRecord != url).toList();
   }
 }
