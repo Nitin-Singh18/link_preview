@@ -92,8 +92,20 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                   )
                                 ]),
                             closeOnScroll: false,
-                            child: Tile(
-                              url: url,
+                            child: GestureDetector(
+                              onLongPress: () async {
+                                await showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    urlController.text = '';
+                                    return dialog(
+                                        context, urlController, ref, url);
+                                  },
+                                );
+                              },
+                              child: Tile(
+                                url: url,
+                              ),
                             ),
                           ),
                         );

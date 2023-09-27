@@ -12,8 +12,10 @@ final homeViewModelProvider =
 class HomeViewModel extends StateNotifier<List<Url>> {
   HomeViewModel() : super([]);
   IsarDatabase db = IsarDatabase();
-  Future<void> addUrl(
-      {required String url, required BuildContext context}) async {
+  Future<void> addUrlOrUpdate(
+      {required String url,
+      required BuildContext context,
+      Url? editUrl}) async {
     //Check if the url is valid
     final uri = Uri.tryParse(url);
     if (uri == null || !uri.isAbsolute) {
@@ -22,9 +24,26 @@ class HomeViewModel extends StateNotifier<List<Url>> {
       return; // Exit the function if the URL is invalid
     }
     try {
-      final id = await db.addUrl(url);
-      Url urlRecord = Url(id: id, url: url);
-      state = [...state, urlRecord];
+      late Url urlRecord;
+      if (editUrl != null) {
+        await db.updateUrlModel(
+          editUrl,
+          url,
+        );
+
+        urlRecord = Url(id: editUrl.id, url: url);
+        final urlList = state;
+
+        final index =
+            urlList.indexWhere((element) => element.id == urlRecord.id);
+        urlList[index] = urlRecord;
+        state = urlList;
+        fetchUrl();
+      } else {
+        final id = await db.addUrl(url);
+        urlRecord = Url(id: id, url: url);
+        state = [...state, urlRecord];
+      }
     } catch (e) {
       debugPrint('Error: $e');
     }

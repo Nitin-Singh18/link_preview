@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../model/url_model.dart';
 import '../../modules/home/view_model/home_view_model.dart';
 import '../const/app_colors.dart';
 import 'c_textfield.dart';
 
 Widget dialog(
-  BuildContext context,
-  TextEditingController controller,
-  WidgetRef ref,
-) {
+    BuildContext context, TextEditingController controller, WidgetRef ref,
+    [Url? editURl]) {
+  if (editURl != null) {
+    controller.text = editURl.url;
+  }
   final formKey = GlobalKey<FormState>();
   return AlertDialog(
     backgroundColor: AppColor.backGroundColor,
@@ -32,24 +34,29 @@ Widget dialog(
     actions: <Widget>[
       TextButton(
         onPressed: () {
-          if (formKey.currentState!.validate()) {
-            ref
-                .read(homeViewModelProvider.notifier)
-                .addUrl(url: controller.text, context: context);
-            Navigator.pop(context, 'Save');
-          }
-        },
-        child: const Text(
-          'Save',
-          style: TextStyle(color: Colors.red),
-        ),
-      ),
-      TextButton(
-        onPressed: () {
           Navigator.pop(context, 'Cancel');
         },
         child: const Text(
           'Cancel',
+        ),
+      ),
+      TextButton(
+        onPressed: () {
+          if (formKey.currentState!.validate()) {
+            final homeVMMethods = ref.read(homeViewModelProvider.notifier);
+            if (editURl != null) {
+              homeVMMethods.addUrlOrUpdate(
+                  url: controller.text, context: context, editUrl: editURl);
+            } else {
+              homeVMMethods.addUrlOrUpdate(
+                  url: controller.text, context: context);
+            }
+          }
+          Navigator.pop(context, 'Save');
+        },
+        child: Text(
+          editURl != null ? 'Update' : 'Save',
+          style: const TextStyle(color: Colors.red),
         ),
       ),
     ],

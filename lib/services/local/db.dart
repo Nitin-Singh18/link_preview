@@ -27,6 +27,16 @@ class IsarDatabase {
     return urls;
   }
 
+  Future<void> updateUrlModel(Url url, String updatedURL) async {
+    await _isar.writeTxn(() async {
+      final urlModel = await _isar.urls.get(url.id!);
+      if (urlModel != null) {
+        urlModel.url = updatedURL;
+        await _isar.urls.put(urlModel);
+      }
+    });
+  }
+
   Future<void> deleteUrl(int id) async {
     await _isar.writeTxn(() async {
       await _isar.urls.delete(id);
