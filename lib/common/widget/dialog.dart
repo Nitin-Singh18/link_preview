@@ -69,7 +69,7 @@ Widget deleteDialog(BuildContext context, VoidCallback onDelete) {
       TextButton(
         onPressed: () {
           onDelete();
-          // ref.read(homeViewModelProvider.notifier).deleteUrl(url);
+
           Navigator.of(context).pop(); // Close the dialog
         },
         child: const Text(

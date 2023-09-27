@@ -32,4 +32,14 @@ class HomeViewModel extends StateNotifier<List<Url>> {
     urlList.remove(url);
     state = state.where((urlRecord) => urlRecord != url).toList();
   }
+
+  void reorderItems(int oldIndex, int newIndex) {
+    final items = state;
+    if (oldIndex < newIndex) {
+      newIndex--;
+    }
+    final item = items.removeAt(oldIndex);
+    items.insert(newIndex, item);
+    state = items;
+  }
 }

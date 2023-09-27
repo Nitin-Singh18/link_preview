@@ -44,13 +44,26 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   height: 8.h,
                 ),
                 Expanded(
-                  child: ListView.builder(
+                  child: ReorderableListView.builder(
                     itemCount: urlList.length,
+                    proxyDecorator: (child, index, animation) {
+                      return Material(
+                        color: AppColor.backGroundColor,
+                        child: child,
+                      );
+                    },
+                    onReorder: (oldIndex, newIndex) => ref
+                        .read(homeViewModelProvider.notifier)
+                        .reorderItems(oldIndex, newIndex),
                     itemBuilder: (context, index) {
                       final url = urlList[index];
                       return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0.w),
+                        key: Key(url.id.toString()),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10.0.w,
+                        ),
                         child: Slidable(
+                          key: ValueKey(url),
                           endActionPane: ActionPane(
                               motion: const StretchMotion(),
                               children: [

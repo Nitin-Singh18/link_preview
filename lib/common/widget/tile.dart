@@ -14,22 +14,18 @@ class Tile extends StatelessWidget {
 
   @override
   build(BuildContext context) {
-    return Column(
-      children: [
-        AnyLinkPreview(
-          link: url.url,
-          displayDirection: UIDirection.uiDirectionHorizontal,
-          bodyMaxLines: 3, // Max lines for the description
-          bodyStyle: TextStyle(
-            color: AppColor.backGroundColor,
-            fontSize: 13.sp,
-            fontWeight: FontWeight.w300,
-          ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
+      child: AnyLinkPreview(
+        link: url.url,
+        displayDirection: UIDirection.uiDirectionHorizontal,
+        bodyMaxLines: 3, // Max lines for the description
+        bodyStyle: TextStyle(
+          color: AppColor.backGroundColor,
+          fontSize: 13.sp,
+          fontWeight: FontWeight.w300,
         ),
-        SizedBox(
-          height: 10.h,
-        ),
-      ],
+      ),
     );
   }
 }

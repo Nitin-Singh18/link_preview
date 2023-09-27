@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return const MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Date Recorder',
+          title: 'URL PREVIEW',
           home: HomeView(),
         );
       },
