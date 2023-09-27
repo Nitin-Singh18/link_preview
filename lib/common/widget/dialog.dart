@@ -35,7 +35,7 @@ Widget dialog(
           if (formKey.currentState!.validate()) {
             ref
                 .read(homeViewModelProvider.notifier)
-                .addUrl(url: controller.text);
+                .addUrl(url: controller.text, context: context);
             Navigator.pop(context, 'Save');
           }
         },
