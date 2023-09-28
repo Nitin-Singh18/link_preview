@@ -15,7 +15,13 @@ Widget dialog(
   final formKey = GlobalKey<FormState>();
   return AlertDialog(
     backgroundColor: AppColor.backGroundColor,
-    title: Form(
+    title: const Center(
+      child: Text(
+        'Edit Link',
+        style: TextStyle(color: AppColor.mainColor),
+      ),
+    ),
+    content: Form(
       key: formKey,
       child: CTextfield(
         hintText: 'Enter  url',

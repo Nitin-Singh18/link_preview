@@ -93,7 +93,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                 ]),
                             closeOnScroll: false,
                             child: GestureDetector(
-                              onLongPress: () async {
+                              onDoubleTap: () async {
                                 await showDialog<String>(
                                   context: context,
                                   builder: (BuildContext context) {
