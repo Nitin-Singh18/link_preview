@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:url_preview_app/modules/home/view/new_home_view.dart';
 import 'package:url_preview_app/services/local/db.dart';
-
-import 'modules/home/view/home_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +22,7 @@ class MyApp extends StatelessWidget {
         return const MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'URL PREVIEW',
-          home: HomeView(),
+          home: NewHomeView(),
         );
       },
     );

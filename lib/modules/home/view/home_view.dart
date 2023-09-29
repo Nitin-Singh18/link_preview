@@ -27,10 +27,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
   Widget build(
     BuildContext context,
   ) {
-    final urlList = ref.watch(homeViewModelProvider);
+    final watchingState = ref.watch(homeViewModelProvider);
     return Scaffold(
       backgroundColor: AppColor.backGroundColor,
-      body: urlList.isEmpty
+      body: watchingState.urlRecords.isEmpty
           ? const SafeArea(
               child: Center(
                 child: Text(
@@ -47,7 +47,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   ),
                   Expanded(
                     child: ReorderableListView.builder(
-                      itemCount: urlList.length,
+                      itemCount: watchingState.urlRecords.length,
                       proxyDecorator: (child, index, animation) {
                         return Material(
                           color: AppColor.backGroundColor,
@@ -58,7 +58,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                           .read(homeViewModelProvider.notifier)
                           .reorderItems(oldIndex, newIndex),
                       itemBuilder: (context, index) {
-                        final url = urlList[index];
+                        final url = watchingState.urlRecords[index];
                         return Padding(
                           key: Key(url.id.toString()),
                           padding: EdgeInsets.symmetric(
@@ -67,30 +67,31 @@ class _HomeViewState extends ConsumerState<HomeView> {
                           child: Slidable(
                             key: ValueKey(url),
                             endActionPane: ActionPane(
-                                motion: const StretchMotion(),
-                                children: [
-                                  SlidableAction(
-                                    onPressed: (context) async {
-                                      await showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return deleteDialog(
-                                            context,
-                                            () {
-                                              ref
-                                                  .read(homeViewModelProvider
-                                                      .notifier)
-                                                  .deleteUrl(url);
-                                            },
-                                          );
-                                        },
-                                      );
-                                    },
-                                    icon: Icons.delete,
-                                    foregroundColor: AppColor.mainColor,
-                                    backgroundColor: AppColor.backGroundColor,
-                                  )
-                                ]),
+                              motion: const StretchMotion(),
+                              children: [
+                                SlidableAction(
+                                  onPressed: (context) async {
+                                    await showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return deleteDialog(
+                                          context,
+                                          () {
+                                            ref
+                                                .read(homeViewModelProvider
+                                                    .notifier)
+                                                .deleteUrl(url);
+                                          },
+                                        );
+                                      },
+                                    );
+                                  },
+                                  icon: Icons.delete,
+                                  foregroundColor: AppColor.mainColor,
+                                  backgroundColor: AppColor.backGroundColor,
+                                )
+                              ],
+                            ),
                             closeOnScroll: false,
                             child: GestureDetector(
                               onDoubleTap: () async {
@@ -99,7 +100,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                   builder: (BuildContext context) {
                                     urlController.text = '';
                                     return dialog(
-                                        context, urlController, ref, url);
+                                        context: context,
+                                        controller: urlController,
+                                        ref: ref,
+                                        editURl: url);
                                   },
                                 );
                               },
@@ -126,7 +130,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
               context: context,
               builder: (BuildContext context) {
                 urlController.text = '';
-                return dialog(context, urlController, ref);
+                return dialog(
+                    context: context, controller: urlController, ref: ref);
               },
             );
           },

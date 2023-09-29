@@ -15,7 +15,7 @@ class Tile extends StatelessWidget {
   @override
   build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5.0),
+      padding: EdgeInsets.symmetric(vertical: 5.0.h),
       child: AnyLinkPreview(
         link: url.url,
         displayDirection: UIDirection.uiDirectionHorizontal,

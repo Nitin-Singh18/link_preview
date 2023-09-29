@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'url_model.dart';
+part of 'category_model.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator
@@ -9,73 +9,66 @@ part of 'url_model.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
-extension GetUrlCollection on Isar {
-  IsarCollection<Url> get urls => this.collection();
+extension GetCategoryCollection on Isar {
+  IsarCollection<Category> get categorys => this.collection();
 }
 
-const UrlSchema = CollectionSchema(
-  name: r'Url',
-  id: -4123948750620638102,
+const CategorySchema = CollectionSchema(
+  name: r'Category',
+  id: 5751694338128944171,
   properties: {
-    r'url': PropertySchema(
+    r'category': PropertySchema(
       id: 0,
-      name: r'url',
+      name: r'category',
       type: IsarType.string,
     )
   },
-  estimateSize: _urlEstimateSize,
-  serialize: _urlSerialize,
-  deserialize: _urlDeserialize,
-  deserializeProp: _urlDeserializeProp,
+  estimateSize: _categoryEstimateSize,
+  serialize: _categorySerialize,
+  deserialize: _categoryDeserialize,
+  deserializeProp: _categoryDeserializeProp,
   idName: r'id',
   indexes: {},
-  links: {
-    r'category': LinkSchema(
-      id: 2649834900144747845,
-      name: r'category',
-      target: r'Category',
-      single: true,
-    )
-  },
+  links: {},
   embeddedSchemas: {},
-  getId: _urlGetId,
-  getLinks: _urlGetLinks,
-  attach: _urlAttach,
+  getId: _categoryGetId,
+  getLinks: _categoryGetLinks,
+  attach: _categoryAttach,
   version: '3.1.0+1',
 );
 
-int _urlEstimateSize(
-  Url object,
+int _categoryEstimateSize(
+  Category object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 + object.url.length * 3;
+  bytesCount += 3 + object.category.length * 3;
   return bytesCount;
 }
 
-void _urlSerialize(
-  Url object,
+void _categorySerialize(
+  Category object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.url);
+  writer.writeString(offsets[0], object.category);
 }
 
-Url _urlDeserialize(
+Category _categoryDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = Url();
+  final object = Category();
+  object.category = reader.readString(offsets[0]);
   object.id = id;
-  object.url = reader.readString(offsets[0]);
   return object;
 }
 
-P _urlDeserializeProp<P>(
+P _categoryDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -89,29 +82,28 @@ P _urlDeserializeProp<P>(
   }
 }
 
-Id _urlGetId(Url object) {
+Id _categoryGetId(Category object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _urlGetLinks(Url object) {
-  return [object.category];
+List<IsarLinkBase<dynamic>> _categoryGetLinks(Category object) {
+  return [];
 }
 
-void _urlAttach(IsarCollection<dynamic> col, Id id, Url object) {
+void _categoryAttach(IsarCollection<dynamic> col, Id id, Category object) {
   object.id = id;
-  object.category.attach(col, col.isar.collection<Category>(), r'category', id);
 }
 
-extension UrlQueryWhereSort on QueryBuilder<Url, Url, QWhere> {
-  QueryBuilder<Url, Url, QAfterWhere> anyId() {
+extension CategoryQueryWhereSort on QueryBuilder<Category, Category, QWhere> {
+  QueryBuilder<Category, Category, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 }
 
-extension UrlQueryWhere on QueryBuilder<Url, Url, QWhereClause> {
-  QueryBuilder<Url, Url, QAfterWhereClause> idEqualTo(Id id) {
+extension CategoryQueryWhere on QueryBuilder<Category, Category, QWhereClause> {
+  QueryBuilder<Category, Category, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -120,7 +112,7 @@ extension UrlQueryWhere on QueryBuilder<Url, Url, QWhereClause> {
     });
   }
 
-  QueryBuilder<Url, Url, QAfterWhereClause> idNotEqualTo(Id id) {
+  QueryBuilder<Category, Category, QAfterWhereClause> idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -142,7 +134,7 @@ extension UrlQueryWhere on QueryBuilder<Url, Url, QWhereClause> {
     });
   }
 
-  QueryBuilder<Url, Url, QAfterWhereClause> idGreaterThan(Id id,
+  QueryBuilder<Category, Category, QAfterWhereClause> idGreaterThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -151,7 +143,7 @@ extension UrlQueryWhere on QueryBuilder<Url, Url, QWhereClause> {
     });
   }
 
-  QueryBuilder<Url, Url, QAfterWhereClause> idLessThan(Id id,
+  QueryBuilder<Category, Category, QAfterWhereClause> idLessThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -160,7 +152,7 @@ extension UrlQueryWhere on QueryBuilder<Url, Url, QWhereClause> {
     });
   }
 
-  QueryBuilder<Url, Url, QAfterWhereClause> idBetween(
+  QueryBuilder<Category, Category, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -177,8 +169,139 @@ extension UrlQueryWhere on QueryBuilder<Url, Url, QWhereClause> {
   }
 }
 
-extension UrlQueryFilter on QueryBuilder<Url, Url, QFilterCondition> {
-  QueryBuilder<Url, Url, QAfterFilterCondition> idEqualTo(Id value) {
+extension CategoryQueryFilter
+    on QueryBuilder<Category, Category, QFilterCondition> {
+  QueryBuilder<Category, Category, QAfterFilterCondition> categoryEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'category',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Category, Category, QAfterFilterCondition> categoryGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'category',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Category, Category, QAfterFilterCondition> categoryLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'category',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Category, Category, QAfterFilterCondition> categoryBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'category',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Category, Category, QAfterFilterCondition> categoryStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'category',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Category, Category, QAfterFilterCondition> categoryEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'category',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Category, Category, QAfterFilterCondition> categoryContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'category',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Category, Category, QAfterFilterCondition> categoryMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'category',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Category, Category, QAfterFilterCondition> categoryIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'category',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Category, Category, QAfterFilterCondition> categoryIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'category',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Category, Category, QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -187,7 +310,7 @@ extension UrlQueryFilter on QueryBuilder<Url, Url, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Url, Url, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<Category, Category, QAfterFilterCondition> idGreaterThan(
     Id value, {
     bool include = false,
   }) {
@@ -200,7 +323,7 @@ extension UrlQueryFilter on QueryBuilder<Url, Url, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Url, Url, QAfterFilterCondition> idLessThan(
+  QueryBuilder<Category, Category, QAfterFilterCondition> idLessThan(
     Id value, {
     bool include = false,
   }) {
@@ -213,7 +336,7 @@ extension UrlQueryFilter on QueryBuilder<Url, Url, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Url, Url, QAfterFilterCondition> idBetween(
+  QueryBuilder<Category, Category, QAfterFilterCondition> idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -229,211 +352,76 @@ extension UrlQueryFilter on QueryBuilder<Url, Url, QFilterCondition> {
       ));
     });
   }
+}
 
-  QueryBuilder<Url, Url, QAfterFilterCondition> urlEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+extension CategoryQueryObject
+    on QueryBuilder<Category, Category, QFilterCondition> {}
+
+extension CategoryQueryLinks
+    on QueryBuilder<Category, Category, QFilterCondition> {}
+
+extension CategoryQuerySortBy on QueryBuilder<Category, Category, QSortBy> {
+  QueryBuilder<Category, Category, QAfterSortBy> sortByCategory() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'url',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addSortBy(r'category', Sort.asc);
     });
   }
 
-  QueryBuilder<Url, Url, QAfterFilterCondition> urlGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Category, Category, QAfterSortBy> sortByCategoryDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'url',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Url, Url, QAfterFilterCondition> urlLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'url',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Url, Url, QAfterFilterCondition> urlBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'url',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Url, Url, QAfterFilterCondition> urlStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'url',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Url, Url, QAfterFilterCondition> urlEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'url',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Url, Url, QAfterFilterCondition> urlContains(String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'url',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Url, Url, QAfterFilterCondition> urlMatches(String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'url',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Url, Url, QAfterFilterCondition> urlIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'url',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Url, Url, QAfterFilterCondition> urlIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'url',
-        value: '',
-      ));
+      return query.addSortBy(r'category', Sort.desc);
     });
   }
 }
 
-extension UrlQueryObject on QueryBuilder<Url, Url, QFilterCondition> {}
-
-extension UrlQueryLinks on QueryBuilder<Url, Url, QFilterCondition> {
-  QueryBuilder<Url, Url, QAfterFilterCondition> category(
-      FilterQuery<Category> q) {
+extension CategoryQuerySortThenBy
+    on QueryBuilder<Category, Category, QSortThenBy> {
+  QueryBuilder<Category, Category, QAfterSortBy> thenByCategory() {
     return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'category');
+      return query.addSortBy(r'category', Sort.asc);
     });
   }
 
-  QueryBuilder<Url, Url, QAfterFilterCondition> categoryIsNull() {
+  QueryBuilder<Category, Category, QAfterSortBy> thenByCategoryDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'category', 0, true, 0, true);
-    });
-  }
-}
-
-extension UrlQuerySortBy on QueryBuilder<Url, Url, QSortBy> {
-  QueryBuilder<Url, Url, QAfterSortBy> sortByUrl() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'url', Sort.asc);
+      return query.addSortBy(r'category', Sort.desc);
     });
   }
 
-  QueryBuilder<Url, Url, QAfterSortBy> sortByUrlDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'url', Sort.desc);
-    });
-  }
-}
-
-extension UrlQuerySortThenBy on QueryBuilder<Url, Url, QSortThenBy> {
-  QueryBuilder<Url, Url, QAfterSortBy> thenById() {
+  QueryBuilder<Category, Category, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<Url, Url, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<Category, Category, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
+}
 
-  QueryBuilder<Url, Url, QAfterSortBy> thenByUrl() {
+extension CategoryQueryWhereDistinct
+    on QueryBuilder<Category, Category, QDistinct> {
+  QueryBuilder<Category, Category, QDistinct> distinctByCategory(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'url', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Url, Url, QAfterSortBy> thenByUrlDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'url', Sort.desc);
+      return query.addDistinctBy(r'category', caseSensitive: caseSensitive);
     });
   }
 }
 
-extension UrlQueryWhereDistinct on QueryBuilder<Url, Url, QDistinct> {
-  QueryBuilder<Url, Url, QDistinct> distinctByUrl({bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'url', caseSensitive: caseSensitive);
-    });
-  }
-}
-
-extension UrlQueryProperty on QueryBuilder<Url, Url, QQueryProperty> {
-  QueryBuilder<Url, int, QQueryOperations> idProperty() {
+extension CategoryQueryProperty
+    on QueryBuilder<Category, Category, QQueryProperty> {
+  QueryBuilder<Category, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<Url, String, QQueryOperations> urlProperty() {
+  QueryBuilder<Category, String, QQueryOperations> categoryProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'url');
+      return query.addPropertyName(r'category');
     });
   }
 }

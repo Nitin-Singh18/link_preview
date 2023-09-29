@@ -1,24 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:url_preview_app/model/category_model.dart';
 import '../../model/url_model.dart';
 import '../../modules/home/view_model/home_view_model.dart';
 import '../const/app_colors.dart';
 import 'c_textfield.dart';
 
 Widget dialog(
-    BuildContext context, TextEditingController controller, WidgetRef ref,
-    [Url? editURl]) {
+    {required BuildContext context,
+    void Function(String)? saveCallback,
+    Category? category,
+    required TextEditingController controller,
+    required WidgetRef ref,
+    Url? editURl}) {
   if (editURl != null) {
     controller.text = editURl.url;
   }
   final formKey = GlobalKey<FormState>();
   return AlertDialog(
     backgroundColor: AppColor.backGroundColor,
-    title: const Center(
+    title: Center(
       child: Text(
-        'Edit Link',
-        style: TextStyle(color: AppColor.mainColor),
+        editURl != null ? 'Edit Link' : 'Add URL',
+        style: const TextStyle(color: AppColor.mainColor),
       ),
     ),
     content: Form(
@@ -49,13 +54,18 @@ Widget dialog(
       TextButton(
         onPressed: () {
           if (formKey.currentState!.validate()) {
-            final homeVMMethods = ref.read(homeViewModelProvider.notifier);
+            // final homeVMMethods = ref.read(homeViewModelProvider.notifier);
             if (editURl != null) {
-              homeVMMethods.addUrlOrUpdate(
-                  url: controller.text, context: context, editUrl: editURl);
+              ref.read(homeViewModelProvider.notifier).addUrlOrUpdate(
+                  url: controller.text,
+                  context: context,
+                  category: category!,
+                  editUrl: editURl);
             } else {
-              homeVMMethods.addUrlOrUpdate(
-                  url: controller.text, context: context);
+              // homeVMMethods.addUrlOrUpdate(
+              //     url: controller.text, context: context);
+              // homeVMMethods.addCategory(controller.text);
+              saveCallback!(controller.text);
             }
           }
           Navigator.pop(context, 'Save');
