@@ -9,6 +9,7 @@ import 'c_textfield.dart';
 
 Widget dialog(
     {required BuildContext context,
+    String? title,
     void Function(String)? saveCallback,
     Category? category,
     required TextEditingController controller,
@@ -22,7 +23,7 @@ Widget dialog(
     backgroundColor: AppColor.backGroundColor,
     title: Center(
       child: Text(
-        editURl != null ? 'Edit Link' : 'Add URL',
+        editURl != null ? 'Edit Link' : title!,
         style: const TextStyle(color: AppColor.mainColor),
       ),
     ),

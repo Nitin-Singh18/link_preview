@@ -81,6 +81,7 @@ class _NewHomeViewState extends ConsumerState<NewHomeView> {
                 categoryController.text = '';
                 return dialog(
                     context: context,
+                    title: 'Add Category',
                     saveCallback: (value) {
                       ref
                           .read(homeViewModelProvider.notifier)

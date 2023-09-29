@@ -131,7 +131,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
               builder: (BuildContext context) {
                 urlController.text = '';
                 return dialog(
-                    context: context, controller: urlController, ref: ref);
+                    context: context,
+                    title: 'Add Category',
+                    controller: urlController,
+                    ref: ref);
               },
             );
           },
