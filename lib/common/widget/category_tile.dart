@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:url_preview_app/common/const/app_colors.dart';
-import 'package:url_preview_app/common/widget/custom_button.dart';
-import 'package:url_preview_app/common/widget/tile.dart';
-import 'package:url_preview_app/model/category_model.dart';
 
+import '../../model/category_model.dart';
 import '../../model/url_model.dart';
 import '../../modules/home/view_model/home_view_model.dart';
+import '../const/app_colors.dart';
+import 'custom_button.dart';
 import 'dialog.dart';
+import 'tile.dart';
 
 class CategoryTile extends StatelessWidget {
   final Category category;
@@ -23,15 +23,16 @@ class CategoryTile extends StatelessWidget {
     final TextEditingController urlController = TextEditingController();
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 5.0.h),
-      child: Consumer(builder: (context, ref, child) {
-        return ExpansionTile(
-          collapsedIconColor: AppColor.mainColor,
-          title: Text(
-            category.category,
-            style: const TextStyle(color: AppColor.mainColor),
-          ),
-          children: <Widget>[
-            Button(
+      child: Consumer(
+        builder: (context, ref, child) {
+          return ExpansionTile(
+            collapsedIconColor: AppColor.mainColor,
+            title: Text(
+              category.category,
+              style: const TextStyle(color: AppColor.mainColor),
+            ),
+            children: <Widget>[
+              Button(
                 ontap: () async {
                   await showDialog<String>(
                     context: context,
@@ -53,17 +54,20 @@ class CategoryTile extends StatelessWidget {
                     },
                   );
                 },
-                title: 'Add Url'),
+                title: 'Add Url',
+              ),
 
-            // Display URLs for this category
-            ReorderableListView.builder(
+              // Display URLs for this category
+              ReorderableListView.builder(
                 onReorder: (oldIndex, newIndex) => ref
                     .read(homeViewModelProvider.notifier)
                     .reorderItems(oldIndex, newIndex),
                 shrinkWrap: true,
+                physics: const ClampingScrollPhysics(),
                 itemCount: urlRecords.length,
-                itemBuilder: (context, i) {
-                  final url = urlRecords[i];
+                itemBuilder: (BuildContext context, int index) {
+                  final url = urlRecords[index];
+                  // print(url.url);
                   return GestureDetector(
                     key: Key(url.id.toString()),
                     onDoubleTap: () async {
@@ -108,15 +112,16 @@ class CategoryTile extends StatelessWidget {
                       ),
                       closeOnScroll: false,
                       child: Tile(
-                        // url: widget.urlRecords[i],
                         url: url,
                       ),
                     ),
                   );
-                }),
-          ],
-        );
-      }),
+                },
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }
