@@ -1,16 +1,11 @@
-# url_preview_app
+# URL PREVIEW APP
 
-A new Flutter project.
+## Table of Contents
+- [Known Issues](#known-issues)
 
-## Getting Started
+## Known Issues
 
-This project is a starting point for a Flutter application.
+### [AnyLinkPreview()](https://github.com/Nitin-Singh18/link_preview/blob/main/lib/common/widget/tile.dart) widget doesn't show a preview for updated URL :
+Description - When double-taps a URL, a dialog opens to update or edit the current URL. After saving, the URL gets updated but the preview doesn't change.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+ 
