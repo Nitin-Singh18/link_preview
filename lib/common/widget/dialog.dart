@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_preview_app/model/category_model.dart';
-import '../../model/url_model.dart';
+import '../../model/url_modell.dart';
 import '../../modules/home/view_model/home_view_model.dart';
 import '../const/app_colors.dart';
 import 'c_textfield.dart';
@@ -16,7 +16,7 @@ Widget dialog(
     required WidgetRef ref,
     Url? editURl}) {
   if (editURl != null) {
-    controller.text = editURl.url;
+    controller.text = editURl.url ?? '';
   }
   final formKey = GlobalKey<FormState>();
   return AlertDialog(
@@ -55,7 +55,6 @@ Widget dialog(
       TextButton(
         onPressed: () {
           if (formKey.currentState!.validate()) {
-            // final homeVMMethods = ref.read(homeViewModelProvider.notifier);
             if (editURl != null) {
               ref.read(homeViewModelProvider.notifier).addUrlOrUpdate(
                   url: controller.text,
@@ -63,9 +62,6 @@ Widget dialog(
                   category: category!,
                   editUrl: editURl);
             } else {
-              // homeVMMethods.addUrlOrUpdate(
-              //     url: controller.text, context: context);
-              // homeVMMethods.addCategory(controller.text);
               saveCallback!(controller.text);
             }
           }

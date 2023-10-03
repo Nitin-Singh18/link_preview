@@ -43,28 +43,38 @@ class _NewHomeViewState extends ConsumerState<NewHomeView> {
                   SizedBox(
                     height: 8.h,
                   ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: watchingState.categoryList.length,
-                      itemBuilder: (context, index) {
-                        final category = watchingState.categoryList[index];
-
-                        final urlRecords = ref
-                            .read(homeViewModelProvider.notifier)
-                            .getCurrentCategorUrl(category);
-
-                        return Padding(
-                          key: Key(category.id.toString()),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 10.0.w, vertical: 5.h),
-                          child: CategoryTile(
-                            category: category,
-                            urlRecords: urlRecords,
+                  watchingState.urlRecords.isEmpty
+                      ? const SafeArea(
+                          child: Center(
+                            child: Text(
+                              'No Link Added',
+                              style: TextStyle(color: AppColor.mainColor),
+                            ),
                           ),
-                        );
-                      },
-                    ),
-                  ),
+                        )
+                      : Expanded(
+                          child: ListView.builder(
+                            itemCount: watchingState.categoryList.length,
+                            itemBuilder: (context, index) {
+                              final category =
+                                  watchingState.categoryList[index];
+
+                              final urlRecords = ref
+                                  .read(homeViewModelProvider.notifier)
+                                  .getCurrentCategorUrl(category);
+
+                              return Padding(
+                                // key: Key(category.id.toString()),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 10.0.w, vertical: 5.h),
+                                child: CategoryTile(
+                                  category: category,
+                                  urlRecords: urlRecords,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
                 ],
               ),
             ),

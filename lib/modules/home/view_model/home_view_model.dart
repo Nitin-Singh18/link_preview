@@ -1,7 +1,8 @@
+import 'package:any_link_preview/any_link_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_preview_app/common/const/utils.dart';
-import 'package:url_preview_app/model/url_model.dart';
+import 'package:url_preview_app/model/url_modell.dart';
 import 'package:url_preview_app/services/local/db.dart';
 
 import '../../../model/category_model.dart';
@@ -45,17 +46,23 @@ class HomeViewModel extends StateNotifier<HomeState> {
       snackBar('Invalid URL. Please enter a valid URL.', context);
       return; // Exit the function if the URL is invalid
     }
+    Metadata? metaData = await getMetaData(url);
+    if (metaData == null) {
+      return;
+    }
+
     try {
+      // late Url urlRecord;
       late Url urlRecord;
       if (editUrl != null) {
-        await db.updateUrlModel(
-          editUrl,
-          url,
-        );
         urlRecord = Url()
           ..id = editUrl.id
-          ..url = url
+          ..title = metaData.title
+          ..desc = metaData.desc
+          ..image = metaData.image
+          ..url = metaData.url
           ..category.value = category;
+        await db.updateUrlModel(editUrl, metaData);
 
         List<Url> urlList = state.urlRecords;
 
@@ -65,18 +72,27 @@ class HomeViewModel extends StateNotifier<HomeState> {
         state = state.copyWith(urlRecords: urlList);
         fetchUrl();
       } else {
-        final id = await db.addUrl(url, category.category);
-
+        final id = await db.addUrl(metaData, category.category);
         urlRecord = Url()
           ..id = id
-          ..url = url
-          ..category.value = category;
+          ..title = metaData.title
+          ..desc = metaData.desc
+          ..image = metaData.image
+          ..url = metaData.url;
+
         final urlRecords = [...state.urlRecords, urlRecord];
         state = state.copyWith(urlRecords: urlRecords);
       }
+      fetchUrl();
     } catch (e) {
       debugPrint('Error: $e');
     }
+  }
+
+  Future<Metadata?> getMetaData(String link) async {
+    Metadata? metadata =
+        await AnyLinkPreview.getMetadata(link: link, cache: null);
+    return metadata;
   }
 
   void fetchUrl() async {

@@ -1,14 +1,14 @@
-import 'package:isar/isar.dart';
+// import 'package:isar/isar.dart';
 
-import 'category_model.dart';
+// import 'category_model.dart';
 
-part 'url_model.g.dart';
+// part 'url_model.g.dart';
 
-@collection
-class Url {
-  Id id = Isar.autoIncrement;
+// @collection
+// class Url {
+//   Id id = Isar.autoIncrement;
 
-  late String url;
+//   late String url;
 
-  final category = IsarLink<Category>();
-}
+//   final category = IsarLink<Category>();
+// }

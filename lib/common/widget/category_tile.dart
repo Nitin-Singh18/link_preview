@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-
 import '../../model/category_model.dart';
-import '../../model/url_model.dart';
+import '../../model/url_modell.dart';
 import '../../modules/home/view_model/home_view_model.dart';
 import '../const/app_colors.dart';
+import 'c_link_preview_widget.dart';
 import 'custom_button.dart';
 import 'dialog.dart';
-import 'tile.dart';
 
 class CategoryTile extends StatelessWidget {
   final Category category;
@@ -85,36 +84,40 @@ class CategoryTile extends StatelessWidget {
                       );
                     },
                     child: Slidable(
-                      endActionPane: ActionPane(
-                        motion: const StretchMotion(),
-                        children: [
-                          SlidableAction(
-                            onPressed: (context) async {
-                              await showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return deleteDialog(
-                                    context,
-                                    () {
-                                      ref
-                                          .read(homeViewModelProvider.notifier)
-                                          .deleteUrl(url);
-                                    },
-                                  );
-                                },
-                              );
-                            },
-                            icon: Icons.delete,
-                            foregroundColor: AppColor.mainColor,
-                            backgroundColor: AppColor.backGroundColor,
-                          )
-                        ],
-                      ),
-                      closeOnScroll: false,
-                      child: Tile(
-                        url: url,
-                      ),
-                    ),
+                        endActionPane: ActionPane(
+                          motion: const StretchMotion(),
+                          children: [
+                            SlidableAction(
+                              onPressed: (context) async {
+                                await showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return deleteDialog(
+                                      context,
+                                      () {
+                                        ref
+                                            .read(
+                                                homeViewModelProvider.notifier)
+                                            .deleteUrl(url);
+                                      },
+                                    );
+                                  },
+                                );
+                              },
+                              icon: Icons.delete,
+                              foregroundColor: AppColor.mainColor,
+                              backgroundColor: AppColor.backGroundColor,
+                            )
+                          ],
+                        ),
+                        closeOnScroll: false,
+                        child: CustomLinkPreviewWidget(
+                          url: url,
+                        )
+                        //     Tile(
+                        //   url: url,
+                        // ),
+                        ),
                   );
                 },
               ),

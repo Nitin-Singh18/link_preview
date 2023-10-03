@@ -1,7 +1,8 @@
+import 'package:any_link_preview/any_link_preview.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_preview_app/model/category_model.dart';
-import 'package:url_preview_app/model/url_model.dart';
+import 'package:url_preview_app/model/url_modell.dart';
 
 class IsarDatabase {
   static late Isar _isar;
@@ -9,12 +10,15 @@ class IsarDatabase {
   static Future<void> open() async {
     final dir = await getApplicationDocumentsDirectory();
     _isar = await Isar.open(
-      [UrlSchema, CategorySchema],
+      [
+        UrlSchema,
+        CategorySchema,
+      ],
       directory: dir.path,
     );
   }
 
-  Future<int> addUrl(String url, String category) async {
+  Future<int> addUrl(Metadata metaData, String category) async {
     final existingCategory = await _isar.categorys
         .where()
         .filter()
@@ -25,7 +29,10 @@ class IsarDatabase {
 
     if (existingCategory != null) {
       final urlModel = Url()
-        ..url = url
+        ..title = metaData.title ?? ''
+        ..desc = metaData.desc ?? ''
+        ..image = metaData.image ?? ''
+        ..url = metaData.url ?? ''
         ..category.value = existingCategory;
       await _isar.writeTxn(() async {
         id = await _isar.urls.put(urlModel);
@@ -34,7 +41,10 @@ class IsarDatabase {
     } else {
       final urlCategory = Category()..category = category;
       final urlModel = Url()
-        ..url = url
+        ..title = metaData.title ?? ''
+        ..desc = metaData.desc ?? ''
+        ..image = metaData.image ?? ''
+        ..url = metaData.url ?? ''
         ..category.value = urlCategory;
 
       await _isar.writeTxnSync(
@@ -52,11 +62,15 @@ class IsarDatabase {
     return urls;
   }
 
-  Future<void> updateUrlModel(Url url, String updatedURL) async {
+  Future<void> updateUrlModel(Url url, Metadata updatedURL) async {
     await _isar.writeTxn(() async {
       final urlModel = await _isar.urls.get(url.id);
       if (urlModel != null) {
-        urlModel.url = updatedURL;
+        urlModel
+          ..title = updatedURL.title
+          ..desc = updatedURL.desc
+          ..image = updatedURL.image
+          ..url = updatedURL.url;
         await _isar.urls.put(urlModel);
       }
     });
