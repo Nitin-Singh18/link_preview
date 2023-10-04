@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:url_preview_app/common/widget/tile.dart';
-import '../../../../common/const/app_colors.dart';
+
+import '../../../common/const/app_colors.dart';
+import '../../../common/widget/category_tile.dart';
+import '../../../common/widget/custom_button.dart';
 import '../../../common/widget/dialog.dart';
-import '../../../../common/widget/custom_button.dart';
 import '../view_model/home_view_model.dart';
 
 class HomeView extends ConsumerStatefulWidget {
@@ -16,101 +16,49 @@ class HomeView extends ConsumerStatefulWidget {
 }
 
 class _HomeViewState extends ConsumerState<HomeView> {
-  final TextEditingController urlController = TextEditingController();
+  final TextEditingController categoryController = TextEditingController();
   @override
   void initState() {
     super.initState();
-    ref.read(homeViewModelProvider.notifier).fetchUrl();
+    //To fetch all the categories and urlRecords
+    ref.read(homeViewModelProvider.notifier).fetchCategories();
   }
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
-    final watchingState = ref.watch(homeViewModelProvider);
+  Widget build(BuildContext context) {
+    final categoryList = ref.watch(homeViewModelProvider).categoryList;
     return Scaffold(
       backgroundColor: AppColor.backGroundColor,
-      body: watchingState.urlRecords.isEmpty
+      body: categoryList.isEmpty
           ? const SafeArea(
               child: Center(
                 child: Text(
-                  'No Link Added',
+                  'No Category Added',
                   style: TextStyle(color: AppColor.mainColor),
                 ),
               ),
             )
-          : SafeArea(
+          :
+          //Display all the categories
+          SafeArea(
               child: Column(
                 children: [
                   SizedBox(
                     height: 8.h,
                   ),
                   Expanded(
-                    child: ReorderableListView.builder(
-                      itemCount: watchingState.urlRecords.length,
-                      proxyDecorator: (child, index, animation) {
-                        return Material(
-                          color: AppColor.backGroundColor,
-                          child: child,
-                        );
-                      },
-                      onReorder: (oldIndex, newIndex) => ref
-                          .read(homeViewModelProvider.notifier)
-                          .reorderItems(oldIndex, newIndex),
+                    child: ListView.builder(
+                      itemCount: categoryList.length,
                       itemBuilder: (context, index) {
-                        final url = watchingState.urlRecords[index];
+                        final category = categoryList[index];
+
                         return Padding(
-                          key: Key(url.id.toString()),
                           padding: EdgeInsets.symmetric(
                             horizontal: 10.0.w,
+                            vertical: 5.h,
                           ),
-                          child: Slidable(
-                            key: ValueKey(url),
-                            endActionPane: ActionPane(
-                              motion: const StretchMotion(),
-                              children: [
-                                SlidableAction(
-                                  onPressed: (context) async {
-                                    await showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return deleteDialog(
-                                          context,
-                                          () {
-                                            ref
-                                                .read(homeViewModelProvider
-                                                    .notifier)
-                                                .deleteUrl(url);
-                                          },
-                                        );
-                                      },
-                                    );
-                                  },
-                                  icon: Icons.delete,
-                                  foregroundColor: AppColor.mainColor,
-                                  backgroundColor: AppColor.backGroundColor,
-                                )
-                              ],
-                            ),
-                            closeOnScroll: false,
-                            child: GestureDetector(
-                              onDoubleTap: () async {
-                                await showDialog<String>(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    urlController.text = '';
-                                    return dialog(
-                                        context: context,
-                                        controller: urlController,
-                                        ref: ref,
-                                        editURl: url);
-                                  },
-                                );
-                              },
-                              child: Tile(
-                                url: url,
-                              ),
-                            ),
+                          child: CategoryTile(
+                            category: category,
                           ),
                         );
                       },
@@ -126,15 +74,21 @@ class _HomeViewState extends ConsumerState<HomeView> {
         child: Button(
           isIcon: true,
           ontap: () async {
+            //To add a cateogry
             await showDialog<String>(
               context: context,
               builder: (BuildContext context) {
-                urlController.text = '';
+                categoryController.text = '';
                 return dialog(
-                    context: context,
-                    title: 'Add Category',
-                    controller: urlController,
-                    ref: ref);
+                  context: context,
+                  title: 'Add Category',
+                  saveCallback: (value) {
+                    //save category
+                    ref.read(homeViewModelProvider.notifier).addCategory(value);
+                  },
+                  controller: categoryController,
+                  ref: ref,
+                );
               },
             );
           },

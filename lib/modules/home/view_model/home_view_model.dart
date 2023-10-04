@@ -9,13 +9,13 @@ import '../../../model/category_model.dart';
 
 class HomeState {
   final List<Category> categoryList;
-  final List<Url> urlRecords;
+  final List<UrlPreviewData> urlRecords;
 
   HomeState({required this.categoryList, required this.urlRecords});
 
   HomeState copyWith({
     List<Category>? categoryList,
-    List<Url>? urlRecords,
+    List<UrlPreviewData>? urlRecords,
   }) {
     return HomeState(
       categoryList: categoryList ?? this.categoryList,
@@ -38,7 +38,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
       {required String url,
       required BuildContext context,
       required Category category,
-      Url? editUrl}) async {
+      UrlPreviewData? editUrl}) async {
     //Check if the url is valid
     final uri = Uri.tryParse(url);
     if (uri == null || !uri.isAbsolute) {
@@ -52,10 +52,9 @@ class HomeViewModel extends StateNotifier<HomeState> {
     }
 
     try {
-      // late Url urlRecord;
-      late Url urlRecord;
+      late UrlPreviewData urlRecord;
       if (editUrl != null) {
-        urlRecord = Url()
+        urlRecord = UrlPreviewData()
           ..id = editUrl.id
           ..title = metaData.title
           ..desc = metaData.desc
@@ -64,26 +63,25 @@ class HomeViewModel extends StateNotifier<HomeState> {
           ..category.value = category;
         await db.updateUrlModel(editUrl, metaData);
 
-        List<Url> urlList = state.urlRecords;
+        List<UrlPreviewData> urlList = state.urlRecords;
 
         final index =
             urlList.indexWhere((element) => element.id == urlRecord.id);
         urlList[index] = urlRecord;
         state = state.copyWith(urlRecords: urlList);
-        fetchUrl();
       } else {
         final id = await db.addUrl(metaData, category.category);
-        urlRecord = Url()
+        urlRecord = UrlPreviewData()
           ..id = id
           ..title = metaData.title
           ..desc = metaData.desc
           ..image = metaData.image
-          ..url = metaData.url;
+          ..url = metaData.url
+          ..category.value = category;
 
         final urlRecords = [...state.urlRecords, urlRecord];
         state = state.copyWith(urlRecords: urlRecords);
       }
-      fetchUrl();
     } catch (e) {
       debugPrint('Error: $e');
     }
@@ -100,7 +98,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
     state = state.copyWith(urlRecords: urls);
   }
 
-  void deleteUrl(Url url) async {
+  void deleteUrl(UrlPreviewData url) async {
     await db.deleteUrl(url.id);
     final urlList = state.urlRecords;
     urlList.remove(url);
@@ -137,10 +135,10 @@ class HomeViewModel extends StateNotifier<HomeState> {
     fetchUrl();
   }
 
-  List<Url> getCurrentCategorUrl(Category category) {
-    final List<Url> urls = state.urlRecords.where((element) {
+  List<UrlPreviewData> getCurrentCategorUrl(Category category) {
+    final List<UrlPreviewData> urls = state.urlRecords.where((element) {
       return element.category.value?.id == category.id;
     }).toList();
-    return urls;
+    return urls.reversed.toList();
   }
 }

@@ -4,7 +4,7 @@ import 'package:url_preview_app/model/category_model.dart';
 part 'url_modell.g.dart';
 
 @collection
-class Url {
+class UrlPreviewData {
   Id id = Isar.autoIncrement;
 
   String? title;

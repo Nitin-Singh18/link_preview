@@ -14,7 +14,7 @@ Widget dialog(
     Category? category,
     required TextEditingController controller,
     required WidgetRef ref,
-    Url? editURl}) {
+    UrlPreviewData? editURl}) {
   if (editURl != null) {
     controller.text = editURl.url ?? '';
   }
@@ -78,7 +78,11 @@ Widget dialog(
 
 Widget deleteDialog(BuildContext context, VoidCallback onDelete) {
   return AlertDialog(
-    content: const Text('Are you sure you want to delete this URL?'),
+    backgroundColor: AppColor.backGroundColor,
+    content: const Text(
+      'Are you sure you want to delete this URL?',
+      style: TextStyle(color: AppColor.mainColor),
+    ),
     actions: <Widget>[
       TextButton(
         onPressed: () {
@@ -88,8 +92,8 @@ Widget deleteDialog(BuildContext context, VoidCallback onDelete) {
       ),
       TextButton(
         onPressed: () {
+          //Delete callback
           onDelete();
-
           Navigator.of(context).pop(); // Close the dialog
         },
         child: const Text(

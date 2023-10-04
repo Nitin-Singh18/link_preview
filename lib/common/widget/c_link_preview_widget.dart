@@ -4,7 +4,7 @@ import 'package:url_preview_app/common/const/app_colors.dart';
 import 'package:url_preview_app/model/url_modell.dart';
 
 class CustomLinkPreviewWidget extends StatelessWidget {
-  final Url url;
+  final UrlPreviewData url;
   const CustomLinkPreviewWidget({super.key, required this.url});
 
   @override
@@ -26,11 +26,15 @@ class CustomLinkPreviewWidget extends StatelessWidget {
             height: 100.h,
             child: ClipRRect(
               borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(12.r),
-                  bottomLeft: Radius.circular(12.r)),
+                topLeft: Radius.circular(12.r),
+                bottomLeft: Radius.circular(12.r),
+              ),
               child: Image.network(
                 url.image ??
-                    'https://github.com/sur950/any_link_preview/blob/master/lib/assets/giphy.gif?raw=true',
+                    'https://img.icons8.com/?size=50&id=1G2BW7-tQJJJ&format=png',
+                errorBuilder: (context, error, stackTrace) => Image.network(
+                  'https://img.icons8.com/?size=80&id=1RWURK6uUGd9&format=png',
+                ),
                 fit: BoxFit.fill,
               ),
             ),
@@ -47,9 +51,10 @@ class CustomLinkPreviewWidget extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        fontSize: 15.sp,
-                        color: AppColor.backGroundColor,
-                        fontWeight: FontWeight.w600),
+                      fontSize: 15.sp,
+                      color: AppColor.backGroundColor,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   SizedBox(
                     height: 2.h,
@@ -58,10 +63,11 @@ class CustomLinkPreviewWidget extends StatelessWidget {
                     url.desc ?? 'No Description to Show.',
                     maxLines: 3,
                     style: TextStyle(
-                        fontSize: 15.sp,
-                        overflow: TextOverflow.ellipsis,
-                        color: AppColor.backGroundColor,
-                        fontWeight: FontWeight.w300),
+                      fontSize: 15.sp,
+                      overflow: TextOverflow.ellipsis,
+                      color: AppColor.backGroundColor,
+                      fontWeight: FontWeight.w300,
+                    ),
                   )
                 ],
               ),

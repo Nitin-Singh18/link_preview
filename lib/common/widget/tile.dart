@@ -5,7 +5,7 @@ import '../../model/url_modell.dart';
 import '../const/app_colors.dart';
 
 class Tile extends StatelessWidget {
-  final Url url;
+  final UrlPreviewData url;
 
   const Tile({
     super.key,

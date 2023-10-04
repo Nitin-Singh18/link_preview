@@ -11,7 +11,7 @@ class IsarDatabase {
     final dir = await getApplicationDocumentsDirectory();
     _isar = await Isar.open(
       [
-        UrlSchema,
+        UrlPreviewDataSchema,
         CategorySchema,
       ],
       directory: dir.path,
@@ -19,6 +19,7 @@ class IsarDatabase {
   }
 
   Future<int> addUrl(Metadata metaData, String category) async {
+    //Get existing category
     final existingCategory = await _isar.categorys
         .where()
         .filter()
@@ -28,19 +29,19 @@ class IsarDatabase {
     late Id id;
 
     if (existingCategory != null) {
-      final urlModel = Url()
+      final urlModel = UrlPreviewData()
         ..title = metaData.title ?? ''
         ..desc = metaData.desc ?? ''
         ..image = metaData.image ?? ''
         ..url = metaData.url ?? ''
         ..category.value = existingCategory;
       await _isar.writeTxn(() async {
-        id = await _isar.urls.put(urlModel);
+        id = await _isar.urlPreviewDatas.put(urlModel);
         await urlModel.category.save();
       });
     } else {
       final urlCategory = Category()..category = category;
-      final urlModel = Url()
+      final urlModel = UrlPreviewData()
         ..title = metaData.title ?? ''
         ..desc = metaData.desc ?? ''
         ..image = metaData.image ?? ''
@@ -49,7 +50,7 @@ class IsarDatabase {
 
       await _isar.writeTxnSync(
         () async {
-          id = _isar.urls.putSync(urlModel);
+          id = _isar.urlPreviewDatas.putSync(urlModel);
         },
       );
     }
@@ -57,28 +58,28 @@ class IsarDatabase {
     return id;
   }
 
-  Future<List<Url>> fetchAllUrls() async {
-    final urls = await _isar.urls.where().findAll();
+  Future<List<UrlPreviewData>> fetchAllUrls() async {
+    final urls = await _isar.urlPreviewDatas.where().findAll();
     return urls;
   }
 
-  Future<void> updateUrlModel(Url url, Metadata updatedURL) async {
+  Future<void> updateUrlModel(UrlPreviewData url, Metadata updatedURL) async {
     await _isar.writeTxn(() async {
-      final urlModel = await _isar.urls.get(url.id);
+      final urlModel = await _isar.urlPreviewDatas.get(url.id);
       if (urlModel != null) {
         urlModel
           ..title = updatedURL.title
           ..desc = updatedURL.desc
           ..image = updatedURL.image
           ..url = updatedURL.url;
-        await _isar.urls.put(urlModel);
+        await _isar.urlPreviewDatas.put(urlModel);
       }
     });
   }
 
   Future<void> deleteUrl(int id) async {
     await _isar.writeTxn(() async {
-      await _isar.urls.delete(id);
+      await _isar.urlPreviewDatas.delete(id);
     });
   }
 
